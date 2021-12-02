@@ -145,6 +145,10 @@ V2.2
 
 ![](images/Spider_v2.2_wiring.jpg)
 
+48v and 24v connector
+
+![](images/24_48.jpg)
+
 ## 3.2 Wiring : FYSETC mini 12864 v2.1 
 
 ### 注意/NOTICE：
@@ -499,6 +503,14 @@ Copy your compiled firmware file ```firmware.bin```(If you use klipper firmware,
 
 This method works in linux, that means should work in raspberry pi.
 
+1. Enter DFU mode first
+
+   - First power off the board
+   - Set jumper on 5v pin and DC5V ![](images/5vJumper.png)
+   - Place jumper on BT0 to 3.3V pin ![](images/boot.png)
+   - Connect USB cable to the board and your computer 
+   - Power up the board with 24v 
+   
 1. Make sure dfu-util is installed, shoot `dfu-util --version` command to check.
 
    Sample output:
