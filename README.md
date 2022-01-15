@@ -39,6 +39,7 @@
 [5. Issue shot](#5-issue-shot)
 
 - [5.1 Spider 3.3v issue](#51-spider-33v-issue)
+- [5.2 TMC2209 connection issue](#52-tmc2209-connection-issue)
 
 [6. How to buy](#6-how-to-buy)
 
@@ -576,11 +577,33 @@ Do as the red number shows in the screen shot.
 4. Fill in the 'Start address' with `0x08008000` (If you use Marlin firmware and your platformio env is `default_envs = FYSETC_S6`, then you need to set it to `0x08010000`, if env is `default_envs = FYSETC_S6_8000`, then you need to set it to `0x08008000` . If you use klipper firmware and you choose boot address `32kiB bootloader` when compiling klipper then set it `0x08008000`, if `64kiB bootloader` , set it `0x08010000`. if `no bootloader` set it to `0x08000000`)
 5. Start Programming
 
+### 4.4.4 Upload firmware(platformio)
+
+If you compile Marlin yourself with platformio,you can follow the instructions below to upload the firmware.
+
+#### Step 1. Enter DFU mode first
+
+- First power off the board
+- Set jumper on 5v pin and DC5V ![](images/5vJumper.png)
+- Place jumper on BT0 to 3.3V pin ![](images/boot.png)
+- Connect USB cable to the board and your computer 
+- Power up the board with 24v 
+
+#### Step 2. Click the upload button to upload firmware
+
+![](images/platformio_upload.png)
+
 # 5. Issue shot
 
-## 5.1 Spider 3.3v issue
+### 5.1 Spider 3.3v issue
 
 Please check here([github](https://github.com/FYSETC/FYSETC-SPIDER/blob/main/Spider%203.3v%20issue.md) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/blob/main/Spider%203.3v%20issue.md)).
+
+### 5.2 TMC2209 connection issue
+
+Please add a jumper on each TMC2209 on your Spider board.
+
+![image-20220115115634509](images/tmc2209_error.png)
 
 # 6. How to buy
 
