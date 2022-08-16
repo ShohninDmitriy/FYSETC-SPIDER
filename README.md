@@ -103,6 +103,13 @@ V2.2
 2. Change FAN0 to PA13，FAN1 to PA14
 3. Add pin definition silkscreen on the bottom.
 
+V2.3
+
+1. Change 12v-24v RGB port layout to 3 fan ports, which can be used as a fan port more conveniently and still maintain RGB output support
+2. Optimize the fan control circuit, upgrade the buffer chip to independent triode control, enhance stability and greatly improve safety performance 
+3. All motor drive module interface communication networks add high voltage buffering and voltage clamping processing, adding a shield to the MCU 
+4. Re-layout the PCB, connectors position changed
+
 # 2. Features
 
 - Compact size: 155.3mm x 76.5mm
@@ -157,6 +164,26 @@ V2.2
 
 ![](images/VORON_Trident_Spider_v22_Wiring.png)
 
+#### Spider v2.2 Afterburner Toolhead wiring
+
+![](images/Spider_V2.2_ToolHead_Wiring.png)
+
+### 3.1.4 Spider v2.3 wiring
+
+![](images/Spider_V2.3_Wiring.jpg)
+
+#### Spider v2.3 wiring for VORON 2.4
+
+![](images/VORON2.4_SPIDER_V23_WIRING.jpg)
+
+#### Spider v2.3 wiring for VORON Trident
+
+![](images/VORON_TRIDENT_SPIDER_V23_WIRING.jpg)
+
+#### Spider v2.3 Afterburner Toolhead wiring
+
+![](F:\Projects\BOARD-FYSETC-SPIDER\FYSETC-SPIDER\images\Spider_V2.3_ToolHead_Wiring.png)
+
 ## 3.2 Wiring : FYSETC mini 12864 v2.1
 
 ### 注意/NOTICE：
@@ -180,7 +207,13 @@ V2.2
 
 ## 3.4 Wiring : RaspberryPi
 
-![](images/cable.jpg)
+##### Spider 1.x, Spider 2.2
+
+![](images/spider_rpi.png)
+
+##### Spider 2.3
+
+![](images/spider2.3_rpi.png)
 
 ## 3.5 Pin Out
 
@@ -191,6 +224,10 @@ V2.2
 ### 3.5.2 Spider v2.2
 
 ![](images/Spider_V2.2_Pinout.jpg)
+
+### 3.5.3 Spider v2.3
+
+![](images/Spider_V2.3_Pinout.jpg)
 
 ## 3.6 Pin Definition
 
@@ -278,7 +315,7 @@ V2.2
    <tr><td></td><td>PA14/SWCLK</td><td>76</td><td>only used for debugging now and can be used for other purposes.</td></tr>
 </table>
 
-### 3.6.2 Spider v2.2
+### 3.6.2 Spider v2.x
 
 <table>
    <tr><td>Features</td><td>Spider Pin</td><td>STM32 Pin</td><td>Pin No.</td><td>Comment</td></tr>
@@ -432,26 +469,11 @@ Select `STM32F446`
 Select `12 MHz crystal`
 
 - #### Bootloader offset
-  
-  You have three choose, select it according to your flashed bootloader. 
-
-- ##### 1. No bootloader
-
-If you choose `No bootloader` bootloader offset in Klipper `make menuconfig`, means you don't have any bootloader flashed or don't want any bootloader, then you can follow [Upload the firmware(DFU)](#jump) to upload the firmware to Spider board. **But you need to set the 'Start address' to 0x08000000**. We build two pre-build firmwares using this option for you `klipper-USB.bin`( [github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/firmware/Klipper ) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/firmware/Klipper)) and `klipper-UART.bin`([github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/firmware/Klipper) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/firmware/Klipper)). But these pre-build firmware will be outdated if Klipper update and will not match your new downloaded Klipper and cause annoying issues. We will try to catch up with Klipper, but i recommend to build the firmware yourself with the options we provide.
-
-![image-20210705151440643](images/menuconfig1.png)
-
 - ##### 2. 32KiB bootloader
 
-If you choose `32kiB bootloader` offset in Klipper `make menuconfig`. Then you need to flash the spider board bootloader named `Bootloader_FYSETC_SPIDER` first(If you get your Spider board after `2021/06/23`, no worries, the bootloader is on the board when it leave the factory).  The bootloader is in the folder named `bootloader` in this repo, please follow the README in bootloader folder([github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/bootloader) or [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/bootloader))  to flash the bootloader.  We provide pre-build firmwares with `32KiB bootloader` named `klipper-32k-USB.bin` and `klipper-32k-UART.bin` for you,find them here [github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/firmware/Klipper) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/firmware/Klipper). These pre-build firmware will be outdated if Klipper update and will not match your new downloaded Klipper and cause annoying issues. We will try to catch up with Klipper, but i recommend to build the firmware yourself.
+Choose `32kiB bootloader` offset in Klipper `make menuconfig`. You may need to flash the spider board bootloader named `Bootloader_FYSETC_SPIDER` first(If you get your Spider board after `2021/06/23`, no worries, the bootloader is on the board when it leave the factory,if not,flash it first). The bootloader is in the folder named `bootloader` in this repo, please follow the README in bootloader folder([github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/bootloader) or [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/bootloader))  to flash the bootloader.  We provide pre-build firmwares with `32KiB bootloader` named `klipper-32k-USB.bin` and `klipper-32k-UART.bin` for you,find them here [github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/firmware/Klipper) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/firmware/Klipper). These pre-build firmware will be outdated if Klipper update and will not match your new downloaded Klipper and cause annoying issues. We will try to catch up with Klipper, but i recommend to build the firmware yourself.
 
 ![image-20210705151337765](images/menuconfig2.png)
-
-- ##### 3. 64KiB bootloader
-
-If you choose `64KiB bootloader` offset in Klipper `make menuconfig`. Then you need to flash the spider board bootloader named `Bootloader_FYSETC_SPIDER_10000` first. We provide this option here is for those Spiders which leave the factory before `2021/06/23` as their default bootloader is `64k bootloader`. The bootloader is in the folder named `bootloader` in this repo, please follow the README in bootloader folder([github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/bootloader) or [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/bootloader)) to flash the bootloader. We build two pre-build firmwares using `64KiB bootloader` option named `klipper-64k-USB.bin` and `klipper-64k-UART.bin` for you, find them here [github](https://github.com/FYSETC/FYSETC-SPIDER/tree/main/firmware/Klipper) [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/tree/main/firmware/Klipper). These pre-build firmware will be outdated if Klipper update and will not match your new downloaded Klipper and cause annoying issues. We will try to catch up with Klipper, but i recommend to build the firmware yourself.
-
-![image-20210705151951142](images/menuconfig3.png)
 
 - #### Communication interface
   
@@ -651,6 +673,12 @@ name can be `stepper_x`,`stepper_y`and other stepper in your `printer.cfg`.
 Fix 1: Reflash the bootloader, follow the instruction here ( github gitee ).
 
 Fix 2: If you use Klipper firmware, choose `No bootloader` option when compiling, and upload the firmware to `0x08000000` flash address. Refer to [Upload the firmware(dfu-util)](#jump4) or [Upload the firmware(DFU)](#jump) chapter.
+
+### 5.4 Not boot to klipper/No id found
+
+Try to set `No bootloader` bootloader offset in Klipper `make menuconfig`.This option means you don't have any bootloader flashed or don't want any bootloader, then you can follow [Upload the firmware(DFU)](#jump) to upload the firmware to Spider board. **But you need to set the 'Start address' to 0x08000000**. 
+
+![image-20210705151440643](images/menuconfig1.png)
 
 # 6. How to buy
 
