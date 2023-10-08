@@ -48,7 +48,7 @@
 
 [8. Related Articles](#8-related-articles)
 
-![](images/Spider.png)
+![](hardware/V3.0/spiderV3.0.285.jpg)
 
 # 1. Product Introduction
 
@@ -57,29 +57,21 @@ You can build a 3D printer with rich functions through SPIDER. Especially for VO
 
 ## 1.1 Change log
 
-### 1.1.1 Spider v1.1
+**V1.1**
 
-- Add 5pin connector for BL-Touch
+1. Add 5pin connector for BL-Touch
 
-![image-20210713103906622](images/v1.1_change0.png)
+2. Switch EXP1 & EXP2 mark(Only mark, not socket)
 
-- Switch EXP1 & EXP2 mark(Only mark, not socket)
+3. Add +/- mark
 
-![image-20210713103825940](images/v1.1_change1.png)
+4. Add room for RaspberryPI USB-A power supply port
 
-- Add +/- mark
+5. You can solder the below USB port, then you can power-up RPI with a USB-A cable. It is USB power-supply port without USB signal.
 
-![image-20210713103934110](images/v1.1_change2.png)
+---
 
-- Add room for RaspberryPI USB-A power supply port
-  
-  You can solder the below USB port, then you can power-up RPI with a USB-A cable. It is USB power-supply port without USB signal.
-
-![](images/v1.1_change3.jpg)
-
-### 1.1.2 Spider v2.x
-
-V2.0 
+**V2.0** 
 
 1. Add 48V stepstick support x3 
 2. Add TVS and Bleeding resistance to every stepstick socket 
@@ -90,25 +82,41 @@ V2.0
 7. Optimize some wiring. 
 8. Change the series diode of the driver circuit to a 15A fuse（1808） 
 
-V2.1 
+---
+
+**V2.1** 
 
 1. Change 48V stepstick support to 2 
 2. Change 12V/5A to 12V/3A 
 3. Change the Raspberry Pi 5V (3A to 5A) and system 5V(5A to 3A ) 
 4. Add RESET 1x2 Pin header 
 
-V2.2 
+---
+
+**V2.2** 
 
 1. Add two thermistor sockets, a total of 6. 
 2. Change FAN0 to PA13，FAN1 to PA14
 3. Add pin definition silkscreen on the bottom.
 
-V2.3
+---
+
+**V2.3**
 
 1. Change 12v-24v RGB port layout to 3 fan ports, which can be used as a fan port more conveniently and still maintain RGB output support
 2. Optimize the fan control circuit, upgrade the buffer chip to independent triode control, enhance stability and greatly improve safety performance 
 3. All motor drive module interface communication networks add high voltage buffering and voltage clamping processing, adding a shield to the MCU 
 4. Re-layout the PCB, connectors position changed
+
+---
+
+**V3.0**
+
+1. Added 74HCT365 buffers for all stepper motor drive signals. All the motor drive IO signal voltages are changed from 3.3V to 5V, the driving ability is enhanced, and the external driver connettion is simpler.
+2. An onboard CAN transceiver is added to enable the mainboard to communicate directly with CAN devices, no need for expansion boards.
+3. A 3.3V power supply indicator is added, and different power supplies are indicated by LEDs of different colors, so that the working status of each power supply on the motherboard can be seen at a glance.
+4. The main board has been re-layouted, and all the marks are placed on the top layer, which makes it easier for users to view the marks of the pins and easier for firmware configuration.
+5. Connect the BOOT0 and RESET pins of the STM32 to the Pi's IO through the switch (disconnected by default), which provides the basis for directly entering the programming mode through the Pi. 
 
 # 2. Features
 
@@ -214,6 +222,12 @@ V2.3
 ##### Spider 2.3
 
 ![](images/spider2.3_rpi.png)
+
+##### CAN BUS
+
+If you want to enable Spider CANBUS network in Klipper, please check 4.2.1 chapter `Communication interface` section.
+
+![](images/CANBUS.jpg)
 
 ## 3.5 Pin Out
 
@@ -477,7 +491,7 @@ Choose `32kiB bootloader` offset in Klipper `make menuconfig`. You may need to f
 
 - #### Communication interface
   
-  You have two choices here, if you use USB cable to connect RaspeberryPI and Spider, you need  to follow `1. USB (on PA11/PA12)` below. If you use serial to connect RaspberryPI and Spider, then check `2. Serial (on USART1 PA10/PA9)`.
+  You have there choices here, if you use USB cable to connect RaspeberryPI and Spider, you need  to follow `1. USB (on PA11/PA12)` below. If you use serial to connect RaspberryPI and Spider, then check `2. Serial (on USART1 PA10/PA9)`. If you connect RaspberryPI and Spider with CAN bus, then check `3. CAN bus (on PD0/PD1)`.
 
 - ##### 1. USB (on PA11/PA12)
 
@@ -506,6 +520,12 @@ serial: /dev/ttyAMA0
 ```
 
 Besides this make option, you still need to follow the instructions that `Connect RPI uart.md` file says, you can find the file [github](https://github.com/FYSETC/FYSETC-SPIDER/blob/main/firmware/Klipper/Connect%20RPI%20uart.md) or [gitee](https://gitee.com/fysetc/FYSETC-SPIDER/blob/main/firmware/Klipper/Connect%20RPI%20uart.md).
+
+### 3. CAN bus (on PD0/PD1)
+
+![](images/ci3.png)
+
+You need to follow Klipper CANBUS instruction here [CANBUS - Klipper documentation](https://www.klipper3d.org/CANBUS.html#finding-the-canbus_uuid-for-new-micro-controllers) after you compiled and upload the firmware.
 
 ### 4.2.2 Compile firmware
 
@@ -580,6 +600,10 @@ Then use the command below to upload the firmware. You should replace `firmware.
 dfu-util -R -a 0 -s 0x08008000:leave -D firmware.bin
 ```
 
+### Step 4. Reset MCU
+
+Remove BT0 jumper and click the Spider RESET button.
+
 ### 4.4.3 <span id="jump">Upload the firmware(DFU)</span>
 
 The other way to upload the firmware is using DFU.
@@ -588,7 +612,9 @@ The other way to upload the firmware is using DFU.
 
 You can download it from ST website.
 
-https://www.st.com/zh/development-tools/stm32cubeprog.html
+Chinese: [STM32CubeProg](https://www.st.com/zh/development-tools/stm32cubeprog.html)
+
+English: [STM32CubeProg](https://www.st.com/en/development-tools/stm32cubeprog.html)
 
 Open the STM32CubeProgrammer software.
 
@@ -614,11 +640,17 @@ Now you can connect and flash the Spider board with stm32cubeprogrammer with the
 
 Do as the red number shows in the screen shot.
 
-1. Click the button to find the DFU port.
-2. Connect the DFU 
-3. Choose the "firmware.bin" file. (or .hex file).
-4. Fill in the 'Start address' (If you use Marlin firmware and your platformio env is `default_envs = FYSETC_S6`, then you need to set it to `0x08010000`, if env is `default_envs = FYSETC_S6_8000`, then you need to set it to `0x08008000` . If you use klipper firmware and you choose boot address `no bootloader` when compiling then set it `0x08000000`, if `32kiB bootloader` , set it `0x08008000`. if `64KiB bootloader` set it to `0x08010000`. If yours is hex file, don't need to set anything).
-5. Start Programming
+1. Change to USB
+2. Click the button to find the DFU port.
+3. Connect the DFU 
+4. Change to "Erase and Programming"
+5. Choose the "firmware.bin" file. (or .hex file).
+6. Fill in the 'Start address' (If you use Marlin firmware and your platformio env is `default_envs = FYSETC_S6`, then you need to set it to `0x08010000`, if env is `default_envs = FYSETC_S6_8000`, then you need to set it to `0x08008000` . If you use klipper firmware and you choose boot address `no bootloader` when compiling then set it `0x08000000`, if `32kiB bootloader` , set it `0x08008000`. if `64KiB bootloader` set it to `0x08010000`. If yours is hex file, don't need to set anything).
+7. Start Programming
+
+#### Step 4. Reset MCU
+
+Remove BT0 jumper and click the Spider RESET button.
 
 ### 4.4.4 Upload the firmware(platformio)
 
